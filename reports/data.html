@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<title>Báo cáo phân loại email spam</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:820px;margin:30px auto;padding:0 16px;color:#222}
+h1{font-size:24px} h2{margin-top:32px;font-size:18px}
+table{border-collapse:collapse;margin-top:8px}
+td,th{border:1px solid #bbb;padding:8px 14px;text-align:center}
+th{background:#f0f0f0}
+.row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.name{width:170px} .val{width:70px}
+.track{flex:1;background:#eee;height:20px;border-radius:4px}
+.bar{background:#3b82f6;height:20px;border-radius:4px}
+.tn,.tp{background:#d1fae5} .fp,.fn{background:#fee2e2}
+</style></head><body>
+<h1>Báo cáo phân loại email spam</h1>
+
+<h2>1. Dữ liệu (Enron-Spam)</h2>
+<p>Tổng số email: <b>30462</b> &nbsp;|&nbsp; Spam: <b>14552</b>
+&nbsp;|&nbsp; Ham: <b>15910</b> &nbsp;|&nbsp; Tỉ lệ spam: <b>47.8%</b></p>
+<p>Độ dài trung bình: spam 262 từ, ham 346 từ.
+Tập test: 6093 email (20%).</p>
+
+<h2>2. Accuracy của các mô hình</h2>
+<div class="row"><span class="name">Logistic Regression</span><div class="track"><div class="bar" style="width:99.16%"></div></div><span class="val">99.16%</span></div><div class="row"><span class="name">SVM (LinearSVC)</span><div class="track"><div class="bar" style="width:99.16%"></div></div><span class="val">99.16%</span></div><div class="row"><span class="name">Naive Bayes</span><div class="track"><div class="bar" style="width:98.92%"></div></div><span class="val">98.92%</span></div>
+
+<h2>3. Chỉ số chi tiết</h2>
+<table><tr><th>Mô hình</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+<tr><td>Logistic Regression</td><td>0.9916</td><td>0.9877</td><td>0.9948</td><td>0.9913</td></tr><tr><td>SVM (LinearSVC)</td><td>0.9916</td><td>0.9904</td><td>0.9921</td><td>0.9912</td></tr><tr><td>Naive Bayes</td><td>0.9892</td><td>0.9877</td><td>0.9897</td><td>0.9887</td></tr></table>
+
+<h2>4. Confusion Matrix - SVM</h2>
+<table>
+<tr><th></th><th>Dự đoán: Ham</th><th>Dự đoán: Spam</th></tr>
+<tr><th>Thực tế: Ham</th><td class="tn">3154</td><td class="fp">28</td></tr>
+<tr><th>Thực tế: Spam</th><td class="fn">23</td><td class="tp">2888</td></tr>
+</table>
+<p>FP: email thường bị đánh dấu nhầm là spam. FN: spam lọt qua bộ lọc.</p>
+</body></html>

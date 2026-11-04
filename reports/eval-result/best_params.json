@@ -1,0 +1,20 @@
+{
+  "Logistic Regression": {
+    "params": {
+      "C": 100
+    },
+    "cv_f1": 0.9907
+  },
+  "SVM (LinearSVC)": {
+    "params": {
+      "C": 1
+    },
+    "cv_f1": 0.9907
+  },
+  "Naive Bayes": {
+    "params": {
+      "alpha": 0.01
+    },
+    "cv_f1": 0.9888
+  }
+}

@@ -1,0 +1,7 @@
+expected,model,predicted,spam_probability
+spam,logistic_regression,spam,1.0
+spam,svm,spam,1.0
+spam,naive_bayes,spam,1.0
+ham,logistic_regression,ham,0.0164
+ham,svm,ham,0.0025
+ham,naive_bayes,ham,0.0001

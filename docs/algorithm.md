@@ -1,21 +1,36 @@
 # Thuật toán
 
+## Mục tiêu
+
+Biến nội dung email thành số rồi dùng mô hình học máy dự đoán email đó có phải spam không.
+
+## Đầu vào / Đầu ra
+
+- **Đầu vào**: văn bản email (tiêu đề + nội dung).
+- **Đầu ra**: nhãn `spam` / `ham` và xác suất spam (0–1).
+
 ## Tiền xử lý
 
-Nội dung email được chuyển về chữ thường, HTML và dấu câu được loại bỏ, sau đó
-các stop words tiếng Anh được bỏ qua. Các bước này được dùng nhất quán trong
-huấn luyện và dự đoán.
+`data/scripts/data_processing.py`: ghép tiêu đề và nội dung, đưa về chữ thường, bỏ thẻ HTML, URL, dấu câu, chữ số. Stop words bỏ ở bước TF-IDF.
 
-## TF-IDF
+## Đặc trưng
 
-`TfidfVectorizer` biểu diễn email bằng trọng số tần suất từ đã chuẩn hóa theo
-mức độ phổ biến của từ trong toàn bộ tập train. Vectorizer chỉ được fit trên
-tập train để tránh rò rỉ thông tin từ tập test.
+`model/algorithm/svm_feature_engineer.py`:
+- **TF-IDF** (unigram + bigram, tối đa 50.000 đặc trưng), chỉ học trên tập train.
+- **Tần suất ký tự**: `!`, `$`, chữ HOA, chữ số, URL, HTML, độ dài email.
 
-## Bộ phân loại
+## Mô hình
 
-- Logistic Regression: mô hình tuyến tính phân loại nhị phân.
-- SVM: bộ phân loại margin tối đa với kernel tuyến tính.
-- Multinomial Naive Bayes: mô hình xác suất phù hợp với đặc trưng văn bản.
+Mỗi thuật toán nằm ở một file riêng trong `model/algorithm/`:
 
-Các mô hình được so sánh bằng Accuracy, Precision, Recall và F1-score.
+- **Logistic Regression** (`logistic_regression.py`): tính xác suất spam bằng hàm logistic.
+- **SVM (LinearSVC)** (`svm_feature_engineer.py`, kèm phần đặc trưng): tìm siêu phẳng tách hai lớp với lề lớn nhất; bọc `CalibratedClassifierCV` để có xác suất.
+- **Naive Bayes** (`naive_bayes.py`): dựa trên định lý Bayes, giả định các từ độc lập theo lớp.
+
+## Đánh giá
+
+Accuracy, Precision, Recall, F1 và ma trận nhầm lẫn trên tập test 20% (chia phân tầng).
+
+## Thí nghiệm mở rộng
+
+`model/script/tuning.py`: so sánh tổ hợp đặc trưng, tuning bằng GridSearchCV, ensemble (Random Forest, soft voting). Kết quả đều quanh F1 ≈ 0,991, tức là mô hình cơ bản đã đủ tốt trên bộ dữ liệu này.

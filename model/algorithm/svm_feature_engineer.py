@@ -1,4 +1,9 @@
-"""Thuật toán lõi: trích xuất đặc trưng (TF-IDF + ký tự) và các bộ phân loại (SVM...)."""
+"""Thuật toán 2: SVM, cùng phần trích xuất đặc trưng (TF-IDF + ký tự).
+
+SVM tìm một siêu phẳng tách email spam và ham sao cho khoảng cách (lề) tới các điểm
+gần nhất là lớn nhất; rất hợp với dữ liệu văn bản nhiều chiều.
+Logistic Regression và Naive Bayes nằm ở file riêng cùng thư mục này.
+"""
 
 import math
 import re
@@ -7,13 +12,12 @@ import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import FeatureUnion, Pipeline
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.svm import LinearSVC
 
 from data.scripts.data_processing import clean_text
+from model.algorithm import logistic_regression, naive_bayes
 
 _URL = re.compile(r"(https?://\S+|www\.\S+)")
 _HTML_TAG = re.compile(r"<[^>]+>")
@@ -69,13 +73,15 @@ def build_feature_extractor(
     return FeatureUnion(parts)
 
 
+def build_svm(C: float = 1.0) -> CalibratedClassifierCV:
+    """LinearSVC không có predict_proba nên bọc CalibratedClassifierCV để có xác suất."""
+    return CalibratedClassifierCV(LinearSVC(C=C), cv=3)
+
+
 def build_classifiers() -> dict:
-    """Ba bộ phân loại theo đề bài."""
+    """Ba bộ phân loại theo đề bài, mỗi thuật toán nằm ở một file riêng."""
     return {
-        "logistic_regression": LogisticRegression(
-            C=10, max_iter=1000, solver="liblinear"
-        ),
-        # LinearSVC không có predict_proba nên bọc CalibratedClassifierCV
-        "svm": CalibratedClassifierCV(LinearSVC(C=1.0), cv=3),
-        "naive_bayes": MultinomialNB(alpha=0.1),
+        logistic_regression.NAME: logistic_regression.build_model(),
+        "svm": build_svm(),
+        naive_bayes.NAME: naive_bayes.build_model(),
     }

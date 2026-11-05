@@ -21,18 +21,13 @@ Các lệnh khác (chạy từ thư mục gốc dự án):
 | `python -m model.script.demol` | dự đoán email mẫu bằng 3 mô hình |
 
 ## Cấu trúc
-
-```
-data/raw_data/        dữ liệu thô (Enron-Spam)
+data/raw_data/        dữ liệu thô
 data/scripts/         thu thập, tiền xử lý, thống kê dữ liệu
 data/save_model/      bản sao lưu mô hình
-model/algorithm/      đặc trưng + bộ phân loại
-model/script/         chuẩn bị dữ liệu, huấn luyện, đánh giá, demo
+model/algorithm/      đặc trưng và bộ phân loại
+model/script/         chuẩn bị dữ liệu, huấn luyện, đánh giá, tuning, demo
 model/save_models/    mô hình đã huấn luyện
 reports/              data.html, eval-result/, demo/
-evaluation/           summary.md
+evaluation/           bảng so sánh mô hình
 demo/app.py           giao diện Streamlit
 docs/                 thiết kế bài lab, giải thích thuật toán
-```
-
-Xem chi tiết trong `docs/`.

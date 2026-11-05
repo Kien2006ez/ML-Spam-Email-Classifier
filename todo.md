@@ -48,9 +48,9 @@ BT Lab/
 └── todo.md                       # File ra lệnh cho AI Agent
 
 
-## 🎯 Nhiệm vụ chi tiết dành cho AI Agent
+#🎯 Nhiệm vụ chi tiết 
 
-### Bước 1: Khởi tạo tệp cấu hình môi trường
+## Bước 1: Khởi tạo tệp cấu hình môi trường
 - [x] Tạo file `requirements.txt` chứa các thư viện: `pandas`, `numpy`, `scikit-learn`, `nltk`, `matplotlib`, `seaborn`.
 
 ### Bước 2: Tạo cấu trúc thư mục trống

@@ -15,17 +15,16 @@ import time
 
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.model_selection import GridSearchCV
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import LinearSVC
 
 from data.scripts.data_collection import download_dataset
 from data.scripts.data_processing import get_train_test_split
+from model.algorithm import logistic_regression, naive_bayes
 from model.algorithm.svm_feature_engineer import (
     build_classifiers,
     build_feature_extractor,
+    build_svm,
 )
 from model.config import EVAL_RESULT_DIR, EVALUATION_DIR, RANDOM_STATE
 
@@ -43,7 +42,7 @@ def _row(group: str, name: str, details: str, y_true, y_pred) -> dict:
 
 
 def feature_experiments(X_train, X_test, y_train, y_test) -> list:
-    """So sánh 3 tổ hợp đặc trưng, cùng dùng LinearSVC để công bằng."""
+    """So sánh 3 tổ hợp đặc trưng, cùng dùng SVM tự cài đặt để công bằng."""
     configs = [
         ("TF-IDF unigram", dict(ngram_range=(1, 1), use_char_features=False)),
         ("TF-IDF unigram + bigram", dict(ngram_range=(1, 2), use_char_features=False)),
@@ -57,7 +56,7 @@ def feature_experiments(X_train, X_test, y_train, y_test) -> list:
         print(f"[Đặc trưng] {name} ...")
         extractor = build_feature_extractor(**kwargs)
         Xtr = extractor.fit_transform(X_train)
-        clf = LinearSVC(C=1.0).fit(Xtr, y_train)
+        clf = build_svm().fit(Xtr, y_train)
         rows.append(
             _row("Feature engineering", name, f"{Xtr.shape[1]} đặc trưng",
                  y_test, clf.predict(extractor.transform(X_test)))
@@ -68,12 +67,13 @@ def feature_experiments(X_train, X_test, y_train, y_test) -> list:
 def tuning_experiments(Xtr, Xte, y_train, y_test):
     """GridSearchCV (3-fold, tối ưu F1) cho từng mô hình."""
     searches = {
+        # Dùng các thuật toán tự cài đặt trong model/algorithm/
         "Logistic Regression": (
-            LogisticRegression(max_iter=1000, solver="liblinear"),
+            logistic_regression.build_model(),
             {"C": [0.1, 1, 10, 100]},
         ),
-        "SVM (LinearSVC)": (LinearSVC(), {"C": [0.1, 1, 10]}),
-        "Naive Bayes": (MultinomialNB(), {"alpha": [0.01, 0.1, 0.5, 1.0]}),
+        "SVM": (build_svm(), {"C": [0.1, 1, 10]}),
+        "Naive Bayes": (naive_bayes.build_model(), {"alpha": [0.01, 0.1, 0.5, 1.0]}),
     }
     rows, best_params = [], {}
     for name, (estimator, grid) in searches.items():

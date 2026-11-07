@@ -5,7 +5,7 @@
 - Thư viện Core: `pandas`, `numpy`, `scikit-learn`, `nltk` (hoặc `spacy`)
 - Phân tích dữ liệu: `matplotlib`, `seaborn`
 
-## 📂 Cấu trúc thư mục mong muốn
+## 📂 Cấu trúc thư mục 
 ```text
 BT Lab/
 ├── docs/
@@ -48,7 +48,7 @@ BT Lab/
 └── todo.md                       # File ra lệnh cho AI Agent
 
 
-#🎯 Nhiệm vụ chi tiết 
+#🎯 Nhiệm vụ chi tiết triển khai
 
 ## Bước 1: Khởi tạo tệp cấu hình môi trường
 - [x] Tạo file `requirements.txt` chứa các thư viện: `pandas`, `numpy`, `scikit-learn`, `nltk`, `matplotlib`, `seaborn`.

@@ -21,11 +21,11 @@ Biến nội dung email thành số rồi dùng mô hình học máy dự đoán
 
 ## Mô hình
 
-Mỗi thuật toán nằm ở một file riêng trong `model/algorithm/`:
+Ba thuật toán được **tự cài đặt bằng NumPy**, mỗi thuật toán một file trong `model/algorithm/`:
 
-- **Logistic Regression** (`logistic_regression.py`): tính xác suất spam bằng hàm logistic.
-- **SVM (LinearSVC)** (`svm_feature_engineer.py`, kèm phần đặc trưng): tìm siêu phẳng tách hai lớp với lề lớn nhất; bọc `CalibratedClassifierCV` để có xác suất.
-- **Naive Bayes** (`naive_bayes.py`): dựa trên định lý Bayes, giả định các từ độc lập theo lớp.
+- **Logistic Regression** (`logistic_regression.py`): tính điểm tuyến tính rồi đổi thành xác suất spam bằng sigmoid; học trọng số bằng gradient descent.
+- **SVM (LinearSVC)** (`svm_feature_engineer.py`, kèm phần đặc trưng): tìm siêu phẳng tách hai lớp với lề lớn nhất; dùng hinge loss, học bằng Pegasos (SGD); đổi điểm sang xác suất bằng sigmoid (Platt scaling).
+- **Naive Bayes** (`naive_bayes.py`): dựa trên định lý Bayes, đếm từ theo từng lớp và cộng log xác suất; giả định các từ độc lập theo lớp.
 
 ## Đánh giá
 
@@ -33,4 +33,8 @@ Accuracy, Precision, Recall, F1 và ma trận nhầm lẫn trên tập test 20% 
 
 ## Thí nghiệm mở rộng
 
-`model/script/tuning.py`: so sánh tổ hợp đặc trưng, tuning bằng GridSearchCV, ensemble (Random Forest, soft voting). Kết quả đều quanh F1 ≈ 0,991, tức là mô hình cơ bản đã đủ tốt trên bộ dữ liệu này.
+`model/script/tuning.py`: so sánh tổ hợp đặc trưng, tuning bằng GridSearchCV, ensemble (Random Forest, soft voting). Kết quả đều quanh F1 ≈ 0,99 (Random Forest thấp hơn một chút, 0,983), tức là mô hình cơ bản đã đủ tốt trên bộ dữ liệu này.
+
+## Ghi chú
+
+Các lớp thuật toán kế thừa `BaseEstimator` của scikit-learn chỉ để ghép được vào `Pipeline`; phần tính toán là code tay. TF-IDF, chia train/test và các chỉ số đánh giá vẫn dùng scikit-learn.

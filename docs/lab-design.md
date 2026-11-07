@@ -2,12 +2,12 @@
 
 ## Bối cảnh
 
-Email rác (spam) chiếm một phần lớn thư gửi đến, gây phiền toái và có thể chứa link lừa đảo. Việc tự động lọc spam bằng học máy là một ứng dụng quen thuộc của bài toán phân loại văn bản. Bài Lab 1 yêu cầu xây dựng một hệ thống như vậy, từ dữ liệu đến sản phẩm demo.
+Email rác (spam) chiếm một phần lớn thư gửi đến, gây phiền toái và có thể chứa link lừa đảo. Việc tự động lọc spam bằng học máy là một ứng dụng quen thuộc của bài toán phân loại văn bản. Bài Lab 1 yêu cầu thực hiện đầy đủ quy trình này, từ dữ liệu đến sản phẩm demo.
 
 ## Mục tiêu
 
 1. Phân loại mỗi email thành **spam** hoặc **không spam (ham)**.
-2. Áp dụng và so sánh 3 mô hình: Logistic Regression, SVM, Naive Bayes.
+2. Tự cài đặt và so sánh 3 thuật toán: Logistic Regression, SVM, Naive Bayes.
 3. Đánh giá bằng Accuracy, Precision, Recall, F1 trên tập test.
 4. Tìm hiểu thêm các hướng cải thiện: đặc trưng, tuning siêu tham số, ensemble.
 5. Triển khai giao diện web để phân loại email mới.
@@ -18,7 +18,7 @@ Email rác (spam) chiếm một phần lớn thư gửi đến, gây phiền to�
 - **Đầu vào**: nội dung một email (tiêu đề + nội dung, văn bản tiếng Anh).
 - **Đầu ra**: nhãn `spam` hoặc `ham` (không spam) kèm xác suất spam từ 0 đến 1; từ 0,5 trở lên là spam.
 
-**Hệ thống**
+**Toàn bộ bài lab**
 - **Đầu vào**: file `data/raw_data/enron_spam_data.csv` (cột Subject, Message, Spam/Ham) và email người dùng nhập trên giao diện.
 - **Đầu ra**: mô hình `.joblib`, bảng chỉ số (`metrics.csv`), báo cáo `data.html`, kết quả dự đoán trên giao diện web.
 
@@ -30,7 +30,7 @@ Enron-Spam (~33.700 email có nhãn, còn ~30.400 sau khi bỏ trùng), tự t�
 
 1. Thu thập dữ liệu: `data/scripts/data_collection.py`
 2. Tiền xử lý, chia train/test 80/20: `data/scripts/data_processing.py`
-3. Đặc trưng và 3 thuật toán (mỗi thuật toán một file): `model/algorithm/` gồm `logistic_regression.py`, `svm_feature_engineer.py`, `naive_bayes.py`
+3. Đặc trưng và 3 thuật toán tự cài đặt (mỗi thuật toán một file): `model/algorithm/` gồm `logistic_regression.py`, `svm_feature_engineer.py`, `naive_bayes.py`
 4. Huấn luyện: `model/script/training.py` (ghi log vào `reports/eval-result/training_log.md`)
 5. Đánh giá: `model/script/eval.py`
 6. Thí nghiệm mở rộng: `model/script/tuning.py`

@@ -6,8 +6,9 @@ Biến nội dung email thành số rồi dùng mô hình học máy dự đoán
 
 ## Đầu vào / Đầu ra
 
-- **Đầu vào**: văn bản email (tiêu đề + nội dung).
-- **Đầu ra**: nhãn `spam` / `ham` và xác suất spam (0–1).
+- **Đầu vào**: nội dung email (tiêu đề + nội dung, tiếng Anh).
+- **Đầu ra**: nhãn `spam` / `ham` kèm xác suất spam từ 0 đến 1.
+- **Dữ liệu**: Enron-Spam, 33.716 email có nhãn, tự tải về khi huấn luyện ([nguồn](https://github.com/MWiechmann/enron_spam_data)).
 
 ## Tiền xử lý
 

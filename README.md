@@ -2,12 +2,14 @@
 
 Bài thực hành: phân loại email thành **spam** / **không spam (ham)**.
 
-## Cách chạy
 
+
+## Cách chạy
 ```powershell
 pip install -r requirements.txt
-python -m model.script.training   # tải dữ liệu + huấn luyện + đánh giá
-streamlit run demo/app.py         # mở giao diện web
+python -m model.script.training   # tải dữ liệu, huấn luyện, đánh giá, ghi log
+python -m model.script.tuning     # (tuỳ chọn) tuning, ensemble, so sánh đặc trưng
+streamlit run demo/app.py         # mở giao diện demo
 ```
 
 Các lệnh khác (chạy từ thư mục gốc dự án):

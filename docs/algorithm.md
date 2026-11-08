@@ -6,9 +6,8 @@ Biến nội dung email thành số rồi dùng mô hình học máy dự đoán
 
 ## Đầu vào / Đầu ra
 
-- **Đầu vào**: nội dung email (tiêu đề + nội dung, tiếng Anh).
-- **Đầu ra**: nhãn `spam` / `ham` kèm xác suất spam từ 0 đến 1.
-- **Dữ liệu**: Enron-Spam, 33.716 email có nhãn, tự tải về khi huấn luyện ([nguồn](https://github.com/MWiechmann/enron_spam_data)).
+- **Đầu vào**: văn bản email (tiêu đề + nội dung).
+- **Đầu ra**: nhãn `spam` / `ham` và xác suất spam (0–1).
 
 ## Tiền xử lý
 
@@ -18,7 +17,7 @@ Biến nội dung email thành số rồi dùng mô hình học máy dự đoán
 
 `model/algorithm/svm_feature_engineer.py`:
 - **TF-IDF** (unigram + bigram, tối đa 50.000 đặc trưng), chỉ học trên tập train.
-- **Tần suất ký tự**: `!`, `$`, chữ HOA, chữ số, URL, HTML, độ dài email.
+- **Tần suất ký tự**: `!` và `$`. Không dùng tỉ lệ chữ HOA hay độ dài vì bộ Enron-Spam viết toàn chữ thường, các đặc trưng đó làm email bình thường ngoài đời bị nhận nhầm là spam.
 
 ## Mô hình
 
@@ -39,3 +38,7 @@ Accuracy, Precision, Recall, F1 và ma trận nhầm lẫn trên tập test 20% 
 ## Ghi chú
 
 Các lớp thuật toán kế thừa `BaseEstimator` của scikit-learn chỉ để ghép được vào `Pipeline`; phần tính toán là code tay. TF-IDF, chia train/test và các chỉ số đánh giá vẫn dùng scikit-learn.
+
+## Giới hạn khi dùng ngoài dữ liệu huấn luyện
+
+Bộ Enron-Spam gồm email công việc và spam thập niên 2000, bằng tiếng Anh. Vì vậy email thông báo hiện đại (ngân hàng, ứng dụng) có thể bị nhận nhầm là spam, và email tiếng Việt không có cơ sở để kết luận; giao diện demo sẽ cảnh báo thay vì đưa ra kết quả trong trường hợp email không phải tiếng Anh hoặc quá ngắn.

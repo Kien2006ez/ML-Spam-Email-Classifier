@@ -15,7 +15,6 @@ Logistic Regression và Naive Bayes nằm ở file riêng cùng thư mục này.
 Chạy ví dụ nhỏ:  python -m model.algorithm.svm_feature_engineer
 """
 
-import math
 import re
 
 import numpy as np
@@ -28,12 +27,13 @@ from sklearn.preprocessing import MaxAbsScaler
 from data.scripts.data_processing import clean_text
 from model.algorithm import logistic_regression, naive_bayes
 
-_URL = re.compile(r"(https?://\S+|www\.\S+)")
-_HTML_TAG = re.compile(r"<[^>]+>")
-
 
 class CharFeatures(BaseEstimator, TransformerMixin):
-    """Tần suất ký tự đặc biệt (!, $, chữ HOA, số, URL, HTML, độ dài); đều không âm."""
+    """Tần suất ký tự đặc biệt theo gợi ý của đề: dấu '!' và '$' (đều không âm).
+
+    Không dùng tỉ lệ chữ HOA hay độ dài: bộ Enron-Spam viết toàn chữ thường nên
+    các đặc trưng đó khiến email bình thường ngoài đời bị nhận nhầm là spam.
+    """
 
     def fit(self, X, y=None):
         return self
@@ -43,17 +43,7 @@ class CharFeatures(BaseEstimator, TransformerMixin):
         for text in X:
             text = str(text)
             n = max(len(text), 1)
-            rows.append(
-                [
-                    text.count("!") / n,
-                    text.count("$") / n,
-                    sum(c.isupper() for c in text) / n,
-                    sum(c.isdigit() for c in text) / n,
-                    min(len(_URL.findall(text)), 10) / 10,
-                    1.0 if _HTML_TAG.search(text) else 0.0,
-                    math.log1p(n) / 15,
-                ]
-            )
+            rows.append([text.count("!") / n, text.count("$") / n])
         return np.asarray(rows, dtype=float)
 
 

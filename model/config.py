@@ -19,6 +19,11 @@ DATASET_URL = (
 )
 RAW_CSV = RAW_DIR / "enron_spam_data.csv"
 
+# Email có ít hơn số từ/cụm từ này nằm trong từ vựng thì mô hình không đủ thông tin để kết luận
+MIN_KNOWN_FEATURES = 5
+# Quá tỉ lệ chữ cái ngoài bảng ASCII (có dấu tiếng Việt...) này thì coi là không phải tiếng Anh
+MAX_NON_ASCII_RATIO = 0.05
+
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
 

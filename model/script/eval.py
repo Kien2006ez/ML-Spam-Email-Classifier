@@ -42,15 +42,26 @@ def load_model(model_name: str):
 
 
 def predict_new_email(email_text: str, model_name: str = "svm") -> dict:
-    """Phân loại 1 email. Trả về dict: model, label, is_spam, spam_probability."""
+    """Phân loại 1 email.
+
+    Trả về dict: model, label, is_spam, spam_probability, known_features, non_ascii_ratio.
+    - known_features: số từ/cụm từ của email có trong từ vựng (càng ít càng kém tin cậy).
+    - non_ascii_ratio: tỉ lệ chữ cái ngoài ASCII (cao nghĩa là email không phải tiếng Anh).
+    """
     model = load_model(model_name)
     proba = float(model.predict_proba([email_text])[0][1])
     is_spam = proba >= 0.5
+    tfidf = model.named_steps["features"].transformer_list[0][1]
+    known_features = int((tfidf.transform([email_text]) > 0).sum())
+    letters = [c for c in email_text if c.isalpha()]
+    non_ascii_ratio = sum(ord(c) > 127 for c in letters) / max(len(letters), 1)
     return {
         "model": model_name,
         "label": "spam" if is_spam else "ham",
         "is_spam": is_spam,
         "spam_probability": proba,
+        "known_features": known_features,
+        "non_ascii_ratio": non_ascii_ratio,
     }
 
 

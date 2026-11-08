@@ -4,8 +4,8 @@ Tập test: 6093 email.
 
 | Mô hình | Accuracy | Precision | Recall | F1 |
 |---|---|---|---|---|
-| Logistic Regression | 0.9910 | 0.9870 | 0.9942 | 0.9906 |
-| SVM (LinearSVC) | 0.9925 | 0.9877 | 0.9966 | 0.9921 |
-| Naive Bayes | 0.9892 | 0.9877 | 0.9897 | 0.9887 |
+| Logistic Regression | 0.9906 | 0.9857 | 0.9948 | 0.9903 |
+| SVM (LinearSVC) | 0.9918 | 0.9877 | 0.9952 | 0.9914 |
+| Naive Bayes | 0.9893 | 0.9880 | 0.9897 | 0.9888 |
 
-Mô hình có F1 cao nhất: **SVM (LinearSVC)** (0.9921).
+Mô hình có F1 cao nhất: **SVM (LinearSVC)** (0.9914).

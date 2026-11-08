@@ -22,17 +22,17 @@ th{background:#f0f0f0}
 Tập test: 6093 email (20%).</p>
 
 <h2>2. Accuracy của các mô hình</h2>
-<div class="row"><span class="name">Logistic Regression</span><div class="track"><div class="bar" style="width:99.10%"></div></div><span class="val">99.10%</span></div><div class="row"><span class="name">SVM (LinearSVC)</span><div class="track"><div class="bar" style="width:99.25%"></div></div><span class="val">99.25%</span></div><div class="row"><span class="name">Naive Bayes</span><div class="track"><div class="bar" style="width:98.92%"></div></div><span class="val">98.92%</span></div>
+<div class="row"><span class="name">Logistic Regression</span><div class="track"><div class="bar" style="width:99.06%"></div></div><span class="val">99.06%</span></div><div class="row"><span class="name">SVM (LinearSVC)</span><div class="track"><div class="bar" style="width:99.18%"></div></div><span class="val">99.18%</span></div><div class="row"><span class="name">Naive Bayes</span><div class="track"><div class="bar" style="width:98.93%"></div></div><span class="val">98.93%</span></div>
 
 <h2>3. Chỉ số chi tiết</h2>
 <table><tr><th>Mô hình</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
-<tr><td>Logistic Regression</td><td>0.9910</td><td>0.9870</td><td>0.9942</td><td>0.9906</td></tr><tr><td>SVM (LinearSVC)</td><td>0.9925</td><td>0.9877</td><td>0.9966</td><td>0.9921</td></tr><tr><td>Naive Bayes</td><td>0.9892</td><td>0.9877</td><td>0.9897</td><td>0.9887</td></tr></table>
+<tr><td>Logistic Regression</td><td>0.9906</td><td>0.9857</td><td>0.9948</td><td>0.9903</td></tr><tr><td>SVM (LinearSVC)</td><td>0.9918</td><td>0.9877</td><td>0.9952</td><td>0.9914</td></tr><tr><td>Naive Bayes</td><td>0.9893</td><td>0.9880</td><td>0.9897</td><td>0.9888</td></tr></table>
 
 <h2>4. Confusion Matrix - SVM</h2>
 <table>
 <tr><th></th><th>Dự đoán: Ham</th><th>Dự đoán: Spam</th></tr>
 <tr><th>Thực tế: Ham</th><td class="tn">3146</td><td class="fp">36</td></tr>
-<tr><th>Thực tế: Spam</th><td class="fn">10</td><td class="tp">2901</td></tr>
+<tr><th>Thực tế: Spam</th><td class="fn">14</td><td class="tp">2897</td></tr>
 </table>
 <p>FP: email thường bị đánh dấu nhầm là spam. FN: spam lọt qua bộ lọc.</p>
 </body></html>

@@ -1,4 +1,4 @@
-"""Giao diện web Streamlit cho  thực hành demo phân loại email spam.
+"""Giao diện web Streamlit cho hệ thống phân loại email spam.
 
 Chạy:  streamlit run demo/app.py
 """
@@ -15,6 +15,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from model.config import (  # noqa: E402
     EVAL_RESULT_DIR,
+    MAX_NON_ASCII_RATIO,
+    MIN_KNOWN_FEATURES,
     MODEL_NAMES,
     MODEL_TITLES,
     SAMPLE_EMAILS,
@@ -70,12 +72,29 @@ def render_classifier_tab() -> None:
         )
         return
 
+    if result["non_ascii_ratio"] > MAX_NON_ASCII_RATIO:
+        st.warning(
+            "Email này có vẻ không phải tiếng Anh. Mô hình chỉ được huấn luyện trên email "
+            "tiếng Anh nên không đủ cơ sở để kết luận spam hay không."
+        )
+        return
+    if result["known_features"] < MIN_KNOWN_FEATURES:
+        st.warning(
+            f"Mô hình chỉ nhận ra {result['known_features']} từ trong email này (quá ngắn "
+            "hoặc quá lạ), không đủ cơ sở để kết luận."
+        )
+        return
+
     prob = result["spam_probability"]
     if result["is_spam"]:
         st.error(f"🚨 SPAM — xác suất spam {prob:.1%}")
     else:
         st.success(f"✅ KHÔNG PHẢI SPAM (ham) — xác suất spam chỉ {prob:.1%}")
     st.progress(min(max(prob, 0.0), 1.0), text="Xác suất là spam")
+    st.caption(
+        "Mô hình học từ email công việc và spam tiếng Anh thập niên 2000 (bộ Enron-Spam), "
+        "nên email thông báo hiện đại (ngân hàng, ứng dụng...) có thể bị nhận nhầm là spam."
+    )
 
     if compare:
         rows = []
@@ -102,17 +121,24 @@ def render_metrics_tab() -> None:
     st.subheader("Kết quả trên tập test")
     st.dataframe(df.set_index("model"))
     st.bar_chart(
-    df.set_index("model")[["accuracy", "precision", "recall", "f1"]], stack=False
-)
+        df.set_index("model")[["accuracy", "precision", "recall", "f1"]], stack=False
+    )
     st.caption(
         "TN/FP/FN/TP là các ô của ma trận nhầm lẫn (spam = lớp dương). "
         "FP là email thường bị đánh dấu nhầm là spam, FN là spam lọt qua bộ lọc."
     )
 
+    extra_path = EVAL_RESULT_DIR / "extra_experiments.csv"
+    if extra_path.exists():
+        st.subheader("Thí nghiệm mở rộng")
+        st.caption("Tổ hợp đặc trưng, tuning siêu tham số và ensemble (chạy bằng model.script.tuning).")
+        extra = pd.read_csv(extra_path).fillna("")
+        st.dataframe(extra.set_index("name"))
+
 
 def main() -> None:
     st.set_page_config(page_title="Phân loại Email Spam", page_icon="📧", layout="centered")
-    st.title("Demo Phân loại Email Spam")
+    st.title("Hệ thống Phân loại Email Spam")
     st.write("Logistic Regression · SVM · Naive Bayes với đặc trưng TF-IDF")
 
     tab_classify, tab_metrics = st.tabs(["Phân loại email", "Đánh giá mô hình"])

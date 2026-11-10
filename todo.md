@@ -1,4 +1,4 @@
-# Dự án: Phân loại Email Spam (Spam Email Classification)
+# LAB1: Phân loại Email Spam (Spam Email Classification)
 
 ## 🛠 Công nghệ sử dụng
 - Ngôn ngữ: Python 3.10+

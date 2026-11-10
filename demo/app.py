@@ -1,6 +1,5 @@
-"""Giao diện web Streamlit cho hệ thống phân loại email spam.
+"""Giao diện Demo Streamlit cho thử nghiệm test phân loại email spam.
 
-Chạy:  streamlit run demo/app.py
 """
 
 import sys
@@ -138,7 +137,7 @@ def render_metrics_tab() -> None:
 
 def main() -> None:
     st.set_page_config(page_title="Phân loại Email Spam", page_icon="📧", layout="centered")
-    st.title("Hệ thống Phân loại Email Spam")
+    st.title("Demo Phân loại Email Spam")
     st.write("Logistic Regression · SVM · Naive Bayes với đặc trưng TF-IDF")
 
     tab_classify, tab_metrics = st.tabs(["Phân loại email", "Đánh giá mô hình"])
